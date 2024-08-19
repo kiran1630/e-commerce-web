@@ -1,0 +1,19 @@
+.carousel-item img{
+    object-fit: cover;
+    object-position: top;
+    height : 68vh;
+    overflow : hidden;
+}
+
+.oldprice{
+    font-weight: bold;
+    border-radius: 5px;
+    background-color: red;
+}
+
+.newprice{
+    font-weight: 100;
+    border-radius: 5px;
+    background-color: green;
+    color:white
+}
