@@ -16,8 +16,8 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 base_dir =  os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 tem_dir = os.path.join(base_dir,'template')
-static_dir = os.path.join(base_dir,'static')
-
+static_dir = os.path.join(BASE_DIR,'static')
+print(static_dir,BASE_DIR)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -133,7 +133,7 @@ STATICFILES_DIRS = [
     static_dir
 ]
 
-print(tem_dir,static_dir)
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

@@ -17,17 +17,31 @@
                 <hr style ="border-color:brown">
 
             </div>
-            <div class="col-4 my-3">
+            <hr>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="{%url 'Homie' %}">Home</a></li>
+                  <li class="breadcrumb-item active" aria-current="page"><a href="{%url 'collections' %}">Collections</a></li>
+                  <li class="breadcrumb-item"><a href="{%url 'collections_view' product.categoty.name %}">{{product.categoty.name}}</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">{{product.name}}</li>
+                </ol>
+              </nav>
+            <div class="col-4 my-3 pic-box">
+                <div class="hot">HOT</div>
                 <img src="{{product.image.url}}" alt="">
             </div>
             <div class="col-8 my-3">
-                <h5 class="text-danger"> PEPSI</h5>
-                <p>Seller Name</p>
-                <p>this is Lorem ipsum dolor sit ducimus quasi.</p>
-                <h5 class="my-3"> current-price : 450</h5>
-                <h4 class="my-3"><s>old-price : 550</s></h4>
+                <h2 class="text-secondary"> {{product.name | upper }}</h2>
+                <p>{{product.vendor}}</p>
+                <p>{{product.description}}</p>
+                <h3 class="my-3 text-primary"> OFFER PRICE : {{product.original_price}}</h3>
+                <h4 class="my-3 text-danger " ><s>Current Price  : {{product.selling_price}}</s></h4>
                 <div  class="my-3">
-                    <button class="btn btn-primary"><i class="fa fa-cart"> Add to cart</i></button>
+                {% if product.quantity > 0 %}
+                    <button class="btn btn-primary"><i class="fa fa-shopping-cart"> Add to cart</i></button>
+                {% else %}
+                    <button class="btn btn-secondary"><i class="fa fa-sad"> OUT OF STOCK</i></button>
+                {% endif%}
                     <button class="btn btn-danger"><i class="fa fa-heart"></i></button>
                 </div>
             </div>
