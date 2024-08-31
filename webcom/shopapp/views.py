@@ -4,11 +4,35 @@ from django.http import HttpResponse
 from .models import *
 from django.contrib import messages
 from .form import CustomerUserForm
+from django.contrib.auth import authenticate ,login,logout
+
+
 def home(request):
     product= product_table.objects.filter(trending=1)
     return render(request,'shopapp/index.html',{'product' :product})
 
-def login(request):
+def  logout_page(request):
+    if request.user.is_authenticated:
+        logout(request)
+        messages.success(request,"Logged out Successfully")
+    return redirect('/')
+
+def login_page(request):
+    if request.user.is_authenticated:
+        return redirect('/')
+    else:
+
+        if request.method == 'POST':
+                name = request.POST.get('username')
+                passkey = request.POST.get('password')
+                user = authenticate(request,username = name, password = passkey)
+                if user is not None:
+                    login(request,user)
+                    messages.success(request,"Logged in Successfully")
+                    return redirect('/')
+                else:
+                    messages.error(request,"Invalid User Name or Password")
+                    return redirect('/login')
     return render(request,'shopapp/login.html')
 
 def register(request):
