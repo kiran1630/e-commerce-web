@@ -3,11 +3,24 @@ from django.http import HttpResponse
 # Create your views here.
 from .models import *
 from django.contrib import messages
+from .form import CustomerUserForm
 def home(request):
-    return render(request,'shopapp/index.html')
+    product= product_table.objects.filter(trending=1)
+    return render(request,'shopapp/index.html',{'product' :product})
+
+def login(request):
+    return render(request,'shopapp/login.html')
 
 def register(request):
-    return render(request,'shopapp/register.html')
+    form = CustomerUserForm()
+    if request.method == 'POST':
+      form = CustomerUserForm(request.POST)
+      if form.is_valid():
+          form.save()
+          messages.success(request,'Registration Success You can Login Now...')
+          return redirect('/login')
+    print('not done')
+    return render(request,'shopapp/register.html',{'form':form})
 
 def collections(request):
     category =  Category_table.objects.filter(status=0)
