@@ -45,7 +45,7 @@
                     <div  class="my-3">
                     {% if product.quantity > 0 %}
                          <p>
-                            <input type="hidden" value={{products.id}} id="pid">
+                            <input type="hidden" value= "{{products.id}}" id="pid">
                             <div class="input-group">
                                 <button class="input-group-text bg-success text-light" id="btnMinus"><i class='fa fa-minus'></i></button>
                                 <input type="text"  name='qty' id="txtQty" value="1"  class="form-control text-center">
@@ -69,6 +69,7 @@
 
 
 <script>
+  console.log("Script is running");
   document.addEventListener("DOMContentLoaded", function(event) {
   const btnPlus = document.getElementById("btnPlus");
   const btnMinus = document.getElementById("btnMinus");
@@ -81,6 +82,7 @@
     let qty=parseInt(txtQty.value,10);
     qty=isNaN(qty)?0:qty;
     //console.log(qty);
+    console.log("Button Plus Clicked: Quantity is now " + qty);
     if(qty<10){
       qty++;
       txtQty.value=qty;
@@ -96,20 +98,40 @@
         txtQty.value=qty;
       }
   });
-  btnCart.addEventListener('click',function() {
-    let qty = parseInt(txtQty.value,10);
-    qty = isNaN(qty)?0:qty;
-    if (qty >0){
-        let postObj = {
-            'product_qty' :qty,
-            'pid' : pid.value
-        }
-        console.log(postObj)
-    }
-  })
-});
 
+  btnCart.addEventListener("click", function() {
+      let qty=parseInt(txtQty.value,10);
+      qty=isNaN(qty)?0:qty;
+      
+      if(qty>0){
+        let postObj = { 
+            'product_qty': qty, 
+            'pid': pid.value
+        }
+        //console.log(postObj);
+        fetch("/addtocart",{
+          method: 'POST',
+          credentials: 'same-origin',
+          headers:{
+              'Accept': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest',
+              'X-CSRFToken': '{{ csrf_token }}',
+          },
+          body: JSON.stringify(postObj)
+        }).then(response => {
+	        return response.json();
+        }).then(data => {
+        	//console.log(data);
+          alert(data['status']);
+        });
+ 
+
+      }else{
+        alert("Please Enter The Quantity");
+      }
+      
+  });
+});
 </script>
 
 {% endblock content %}
-

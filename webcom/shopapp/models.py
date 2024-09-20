@@ -33,10 +33,10 @@ class product_table(models.Model):
     trending = models.BooleanField(default=True,help_text='0-default,1-trending')
     created_at = models.DateTimeField(auto_now_add=True)
 
-# class Cart(models.Model):
-#     user = models.ForeignKey(User,on_delete=models.CASCADE)
-#     product = models.ForeignKey(product_table,on_delete=models.CASCADE)
-#     product_qty = models.IntegerField(null=False,blank=False)
-#     created_at =models.DateTimeField(auto_now_add=True)
+class Cart(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    product = models.ForeignKey(product_table,on_delete=models.CASCADE)
+    product_qty = models.IntegerField(null=False,blank=False)
+    created_at =models.DateTimeField(auto_now_add=True)
     
 

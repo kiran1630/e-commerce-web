@@ -5,8 +5,8 @@ from .models import *
 from django.contrib import messages
 from .form import CustomerUserForm
 from django.contrib.auth import authenticate ,login,logout
-
-
+from django.http import JsonResponse
+import json 
 def home(request):
     product= product_table.objects.filter(trending=1)
     return render(request,'shopapp/index.html',{'product' :product})
@@ -16,6 +16,19 @@ def  logout_page(request):
         logout(request)
         messages.success(request,"Logged out Successfully")
     return redirect('/')
+
+def add_to_cart(request):
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        if request.user.is_authenticated:
+            data = json.load(request)
+            product_qty = data['product_qty']
+            product_id = data['pid']
+            print(request.user.id)
+        else:
+            return JsonResponse({'status':'Login to cart'},status =200)
+    else:
+            return JsonResponse({'status':'Login to cart'},status =200)
+
 
 def login_page(request):
     if request.user.is_authenticated:
