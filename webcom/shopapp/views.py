@@ -23,10 +23,26 @@ def add_to_cart(request):
             data = json.load(request)
             product_qty = data['product_qty']
             product_id = data['pid']
-            print(request.user.id)
+            print(request.user.id,'qty',product_qty,'pid',product_id)
+            product_status = product_table.objects.get(id=product_id)
+            if product_status:
+                if Cart.objects.filter(user = request.user.id,product_id =product_id):
+                    return JsonResponse({'status':'Product Already in Cart'},status=200)
+                else:
+                    if product_status.quantity>=product_qty:
+                        Cart.objects.create(user = request.user,product_id =product_id,product_qty = product_qty)
+                        print('product added')
+                        return JsonResponse({'status':'Product Added to Cart'},status=200)
+                        
+                    else:
+                        print('stock not available')
+                        return JsonResponse({'status':'Product Stock not Available'},status =200)
+                    return JsonResponse({'status':'Product Stock Not Available'},status=200)
         else:
+            print('first login to add')
             return JsonResponse({'status':'Login to cart'},status =200)
     else:
+            print('second login to add')
             return JsonResponse({'status':'Login to cart'},status =200)
 
 
