@@ -17,6 +17,10 @@ def  logout_page(request):
         messages.success(request,"Logged out Successfully")
     return redirect('/')
 
+def remove_fav(request,rid):
+    favitem = favorite.objects.get(id=rid)
+    favitem.delete()
+    return redirect('fav_page')
 def cart_page(request):
     if request.user.is_authenticated:
         cart = Cart.objects.filter(user=request.user)
@@ -27,7 +31,33 @@ def cart_page(request):
 def remove_cart(request,cid):
     cartitem = Cart.objects.get(id=cid)
     cartitem.delete()
-    return redirect('/cart')
+    return  redirect('/cart')
+
+
+def fav_page(request):
+    if request.user.is_authenticated:
+        print('yes')
+        fav = favorite.objects.filter(user = request.user)
+        return render(request,'shopapp/fav.html',{'fav':fav})
+    else:
+        return redirect('/')
+
+def fav(request):
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        if request.user.is_authenticated:
+            data = json.load(request)
+            product_id = data['pid']
+            product_status = product_table.objects.get(id = product_id)
+            if product_status:
+                if favorite.objects.filter(user=request.user.id,product_id = product_id):
+                    return JsonResponse({'status':'Product Already in  Favourite'},status =200)
+                else:
+                    favorite.objects.create(user =request.user,product_id = product_id)
+                    return JsonResponse({'status':'Product Added to Favourite'}, status=200)
+        else:
+            return JsonResponse({'status':'Login to add favorite'},status =200)
+    else:
+        return JsonResponse({'status':'Invalid Access'},status =200)
 
 def add_to_cart(request):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -45,6 +75,7 @@ def add_to_cart(request):
                         Cart.objects.create(user = request.user,product_id =product_id,product_qty = product_qty)
                         print('product added')
                         return JsonResponse({'status':'Product Added to Cart'},status=200)
+                    
                         
                     else:
                         print('stock not available')

@@ -43,5 +43,8 @@ class Cart(models.Model):
     def total_cost(self):
         return self.product_qty*self.product.selling_price
 
-    
+class favorite(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    product = models.ForeignKey(product_table,on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
 
