@@ -17,6 +17,18 @@ def  logout_page(request):
         messages.success(request,"Logged out Successfully")
     return redirect('/')
 
+def cart_page(request):
+    if request.user.is_authenticated:
+        cart = Cart.objects.filter(user=request.user)
+        return render(request,'shopapp/cart.html',{'cart':cart})
+    else:
+        return redirect('/')
+
+def remove_cart(request,cid):
+    cartitem = Cart.objects.get(id=cid)
+    cartitem.delete()
+    return redirect('/cart')
+
 def add_to_cart(request):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         if request.user.is_authenticated:
