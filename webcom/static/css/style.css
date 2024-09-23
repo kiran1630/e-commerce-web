@@ -1,3 +1,4 @@
+
 .carousel-item img{
     object-fit: cover;
     object-position: top;
@@ -18,7 +19,7 @@
 .newprice{
     font-weight: 100;
     border-radius: 5px;
-    background-color: rgb(121, 232, 57);
+    background-color: rgb(120, 181, 29);
     color: black;
 }
 
@@ -36,3 +37,38 @@
     right: 20px;
     z-index: 10;
   }
+
+
+
+
+.old_price{
+    color:  #888888 ;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 5px;
+
+}
+.new_price{
+    color:#e60000 ;
+    font-size: 30px;
+    font-weight: bolder;
+    border-radius: 5px;
+   
+}
+.colcard{
+    
+    border-radius: 50px;
+    box-shadow: 10px 10px 5px rgb(136, 174, 249) ;
+    margin:10px;
+    margin-top: 40px ;
+}
+h5{
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+}
+a{
+    text-decoration: none;
+    color: black;
+    
+}

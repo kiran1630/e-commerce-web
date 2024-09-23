@@ -19,7 +19,7 @@
 
 
 </section>
-<section class="bg-light py-4 my-5">
+<section class="bg-light py-4 my-5 ">
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -28,12 +28,12 @@
                 {% include 'shopapp/inc/message.html'%}
             </div>
     {% for item in category %}
-    <div class="col-md-4 col-lg-3">
-      <div class="card my-3">
-        <img src="{{item.image.url}}" class = "card-image-top" alt="Categories">
+    <div class="col-md-4  mb-3 col-lg-3">
+      <div class="card my-3  h-100 colcard" >
+        <img src="{{item.image.url}}" class = "card-img-top" alt="Categories" style="aspect-ratio: 3/2;object-fit: contain;">
         <a href="{% url 'collections_view' item.name %}">
             <div class="card-body">
-                <h5 class ="card-title text-primary">{{item.name}}</h5>
+                <h5 class ="card-title text-primary col_item">{{item.name}}</h5>
                 <p class="card-text">{{item.description}}</p>
                 
             </div>
